@@ -1,0 +1,48 @@
+[gd_scene load_steps=4 format=3 uid="uid://cpxy4ysgvpd7h"]
+
+[ext_resource type="LabelSettings" uid="uid://23y87w80yqmb" path="res://resources/title_text.tres" id="1_iuonh"]
+[ext_resource type="Script" uid="uid://dldhmqtordm2f" path="res://scenes/main/main.gd" id="1_k2fmo"]
+[ext_resource type="Texture2D" uid="uid://qpi2kkf6svdg" path="res://assets/images/survivor1_gun.png" id="2_k2fmo"]
+
+[node name="Main" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_k2fmo")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.333333, 0.388235, 0.419608, 1)
+
+[node name="TitleLabel" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -230.5
+offset_top = -24.5
+offset_right = 230.5
+offset_bottom = 24.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "Press Space To Play"
+label_settings = ExtResource("1_iuonh")
+
+[node name="Survivor" type="Sprite2D" parent="."]
+position = Vector2(200, 315)
+texture = ExtResource("2_k2fmo")
+
+[node name="Survivor2" type="Sprite2D" parent="."]
+position = Vector2(950, 315)
+texture = ExtResource("2_k2fmo")
+flip_h = true
