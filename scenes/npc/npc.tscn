@@ -1,0 +1,110 @@
+[gd_scene load_steps=14 format=3 uid="uid://b556ifg1acjfg"]
+
+[ext_resource type="Script" uid="uid://pfy34artbrjr" path="res://scenes/npc/npc.gd" id="1_dpyoa"]
+[ext_resource type="FontFile" uid="uid://br78jsck4l551" path="res://assets/fonts/LuckiestGuy-Regular.ttf" id="1_sspvn"]
+[ext_resource type="Texture2D" uid="uid://cfqd6x72li5mx" path="res://assets/spritesheets/spritesheet_characters.png" id="2_pcwmf"]
+[ext_resource type="AudioStream" uid="uid://cuwp7rw1girm1" path="res://assets/sounds/gasp1.wav" id="4_ay68w"]
+[ext_resource type="AudioStream" uid="uid://1s1wdc3ck1ec" path="res://assets/sounds/gasp2.wav" id="5_evswx"]
+[ext_resource type="AudioStream" uid="uid://b8lhx8lovbx13" path="res://assets/sounds/gasp3.wav" id="6_p70cs"]
+[ext_resource type="Texture2D" uid="uid://cb8bsv4nbljwr" path="res://assets/images/running_1.png" id="7_evswx"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_pcwmf"]
+font = ExtResource("1_sspvn")
+font_color = Color(0.388235, 0.462745, 0.639216, 1)
+outline_size = 10
+outline_color = Color(0.286275, 0.341176, 0.478431, 1)
+shadow_size = 10
+shadow_color = Color(0.286275, 0.341176, 0.478431, 1)
+shadow_offset = Vector2(3, 3)
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_pcwmf"]
+height = 35.0
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_lvnn6"]
+streams_count = 3
+stream_0/stream = ExtResource("4_ay68w")
+stream_1/stream = ExtResource("5_evswx")
+stream_2/stream = ExtResource("6_p70cs")
+
+[sub_resource type="Animation" id="Animation_p70cs"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Enemy:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_evswx"]
+resource_name = "alert"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Enemy:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5, 1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 0, 0, 1), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_lvnn6"]
+_data = {
+&"RESET": SubResource("Animation_p70cs"),
+&"alert": SubResource("Animation_evswx")
+}
+
+[node name="NPC" type="CharacterBody2D"]
+script = ExtResource("1_dpyoa")
+
+[node name="DebugLabel" type="Label" parent="."]
+offset_left = -25.0
+offset_top = -100.0
+offset_right = 23.0
+offset_bottom = -43.0
+text = "debug
+debug
+debug"
+label_settings = SubResource("LabelSettings_pcwmf")
+
+[node name="Enemy" type="Sprite2D" parent="."]
+texture = ExtResource("2_pcwmf")
+offset = Vector2(10, 0)
+region_enabled = true
+region_rect = Rect2(113, 0, 52, 43)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_pcwmf")
+
+[node name="NavAgent" type="NavigationAgent2D" parent="."]
+radius = 30.0
+max_speed = 150.0
+
+[node name="PlayerDetect" type="RayCast2D" parent="."]
+target_position = Vector2(400, 0)
+
+[node name="GaspSound" type="AudioStreamPlayer2D" parent="."]
+stream = SubResource("AudioStreamRandomizer_lvnn6")
+
+[node name="Warning" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(5, 0)
+rotation = 1.5708
+scale = Vector2(0.15, 0.15)
+texture = ExtResource("7_evswx")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_lvnn6")
+}
+
+[connection signal="velocity_computed" from="NavAgent" to="." method="_on_nav_agent_velocity_computed"]

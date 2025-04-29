@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://dx35avvgig0wl"]
+
+[ext_resource type="Texture2D" uid="uid://cfqd6x72li5mx" path="res://assets/spritesheets/spritesheet_characters.png" id="1_8afob"]
+[ext_resource type="Script" uid="uid://c4delatxuf4q7" path="res://scenes/player/player.gd" id="1_dovo2"]
+
+[node name="Player" type="CharacterBody2D"]
+script = ExtResource("1_dovo2")
+
+[node name="PlayerSprite" type="Sprite2D" parent="."]
+texture = ExtResource("1_8afob")
+offset = Vector2(10, 0)
+region_enabled = true
+region_rect = Rect2(112, 88, 51, 43)
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(18, 3, 34, 5, 34, 14, 13, 21, -4, 21, -14, 10, -14, -9, -4, -21, 6, -21)
