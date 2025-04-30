@@ -1,10 +1,12 @@
-[gd_scene load_steps=7 format=4 uid="uid://blls5qfjhlckv"]
+[gd_scene load_steps=9 format=4 uid="uid://blls5qfjhlckv"]
 
 [ext_resource type="PackedScene" uid="uid://b1kyq5shfol4u" path="res://scenes/game_ui/game_ui.tscn" id="1_h3e3j"]
 [ext_resource type="TileSet" uid="uid://bcv00yvtt7ydu" path="res://resources/level_tiles.tres" id="2_nbgty"]
 [ext_resource type="PackedScene" uid="uid://b556ifg1acjfg" path="res://scenes/npc/npc.tscn" id="3_i166f"]
 [ext_resource type="PackedScene" uid="uid://b20bat11t6gst" path="res://scenes/waypoint/waypoint.tscn" id="4_qkmgm"]
 [ext_resource type="PackedScene" uid="uid://dx35avvgig0wl" path="res://scenes/player/player.tscn" id="5_hnne4"]
+[ext_resource type="PackedScene" uid="uid://cb0warjjyh6gt" path="res://scenes/exit/exit.tscn" id="6_vpf64"]
+[ext_resource type="PackedScene" uid="uid://bw6nr8wgh5t1j" path="res://scenes/pickup/pickup.tscn" id="7_wcngd"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_i166f"]
 vertices = PackedVector2Array(664, 472, 998.953, 551.023, 152.063, 551.969, 424, 472, 152.93, 217.094, 407.617, 218.102, 424, 232, 998.047, 89, 793.203, 217.813, 792.203, 89, 664, 232, 680.57, 214.242, 409.617, 88.0703, 677.578, 88.9219)
@@ -62,3 +64,12 @@ position = Vector2(222, 253)
 
 [node name="Player" parent="." instance=ExtResource("5_hnne4")]
 position = Vector2(191, 271)
+
+[node name="Exit" parent="." instance=ExtResource("6_vpf64")]
+position = Vector2(895, 120)
+
+[node name="Pickup" parent="." instance=ExtResource("7_wcngd")]
+position = Vector2(278, 445)
+
+[node name="Pickup2" parent="." instance=ExtResource("7_wcngd")]
+position = Vector2(764, 353)

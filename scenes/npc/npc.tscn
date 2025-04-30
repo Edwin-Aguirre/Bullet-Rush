@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://b556ifg1acjfg"]
+[gd_scene load_steps=15 format=3 uid="uid://b556ifg1acjfg"]
 
 [ext_resource type="Script" uid="uid://pfy34artbrjr" path="res://scenes/npc/npc.gd" id="1_dpyoa"]
 [ext_resource type="FontFile" uid="uid://br78jsck4l551" path="res://assets/fonts/LuckiestGuy-Regular.ttf" id="1_sspvn"]
@@ -7,6 +7,7 @@
 [ext_resource type="AudioStream" uid="uid://1s1wdc3ck1ec" path="res://assets/sounds/gasp2.wav" id="5_evswx"]
 [ext_resource type="AudioStream" uid="uid://b8lhx8lovbx13" path="res://assets/sounds/gasp3.wav" id="6_p70cs"]
 [ext_resource type="Texture2D" uid="uid://cb8bsv4nbljwr" path="res://assets/images/running_1.png" id="7_evswx"]
+[ext_resource type="AudioStream" uid="uid://bkeoyx6sf2l5t" path="res://assets/sounds/sfx_wpn_laser2.wav" id="8_p70cs"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_pcwmf"]
 font = ExtResource("1_sspvn")
@@ -18,7 +19,6 @@ shadow_color = Color(0.286275, 0.341176, 0.478431, 1)
 shadow_offset = Vector2(3, 3)
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_pcwmf"]
-height = 35.0
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_lvnn6"]
 streams_count = 3
@@ -64,6 +64,7 @@ _data = {
 }
 
 [node name="NPC" type="CharacterBody2D"]
+collision_layer = 0
 script = ExtResource("1_dpyoa")
 
 [node name="DebugLabel" type="Label" parent="."]
@@ -107,4 +108,15 @@ libraries = {
 &"": SubResource("AnimationLibrary_lvnn6")
 }
 
+[node name="ShootTimer" type="Timer" parent="."]
+wait_time = 1.5
+autostart = true
+
+[node name="Gun" type="Marker2D" parent="."]
+position = Vector2(45, 10)
+
+[node name="GunSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("8_p70cs")
+
 [connection signal="velocity_computed" from="NavAgent" to="." method="_on_nav_agent_velocity_computed"]
+[connection signal="timeout" from="ShootTimer" to="." method="_on_shoot_timer_timeout"]

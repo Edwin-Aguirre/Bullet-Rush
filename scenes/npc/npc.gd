@@ -5,7 +5,7 @@ enum EnemyState { Patrolling, Chasing, Searching }
 
 
 const SPEED: Dictionary[EnemyState, float] = {
-	EnemyState.Patrolling: 60.0,
+	EnemyState.Patrolling: 70.0,
 	EnemyState.Chasing: 100.0,
 	EnemyState.Searching: 80.0,
 }
@@ -18,6 +18,9 @@ const FOV: Dictionary[EnemyState, float] = {
 }
 
 
+const BULLET = preload("res://scenes/bullet/bullet.tscn")
+
+
 @export var patrol_points: NodePath
 
 
@@ -27,6 +30,9 @@ const FOV: Dictionary[EnemyState, float] = {
 @onready var gasp_sound: AudioStreamPlayer2D = $GaspSound
 @onready var warning: Sprite2D = $Warning
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
+@onready var shoot_timer: Timer = $ShootTimer
+@onready var gun: Marker2D = $Gun
+@onready var gun_sound: AudioStreamPlayer2D = $GunSound
 
 
 
@@ -159,6 +165,18 @@ func set_label() -> void:
 	
 
 
+func shoot() -> void:
+	if _state != EnemyState.Chasing: return
+	var b = BULLET.instantiate()
+	b.global_position = gun.global_position
+	get_tree().current_scene.call_deferred("add_child", b)
+	gun_sound.play()
+
+
 func _on_nav_agent_velocity_computed(safe_velocity: Vector2) -> void:
 	velocity = safe_velocity
 	move_and_slide()
+
+
+func _on_shoot_timer_timeout() -> void:
+	shoot()

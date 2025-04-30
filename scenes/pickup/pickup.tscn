@@ -1,0 +1,87 @@
+[gd_scene load_steps=17 format=3 uid="uid://bw6nr8wgh5t1j"]
+
+[ext_resource type="Texture2D" uid="uid://41wfpurm8onc" path="res://assets/images/pill2.png" id="1_oep1y"]
+[ext_resource type="Script" uid="uid://b77aamam4tfnj" path="res://scenes/pickup/pickup.gd" id="1_ys6ab"]
+[ext_resource type="AudioStream" uid="uid://crk145cvrn2hd" path="res://assets/sounds/Positive Sounds/sfx_sounds_powerup1.wav" id="2_dliym"]
+[ext_resource type="AudioStream" uid="uid://5i4qat5b01m4" path="res://assets/sounds/Positive Sounds/sfx_sounds_powerup2.wav" id="3_ys6ab"]
+[ext_resource type="AudioStream" uid="uid://dtt5st65omv8f" path="res://assets/sounds/Positive Sounds/sfx_sounds_powerup3.wav" id="4_n5xu2"]
+[ext_resource type="AudioStream" uid="uid://bxl3btmhovpww" path="res://assets/sounds/Positive Sounds/sfx_sounds_powerup4.wav" id="5_t8ipd"]
+[ext_resource type="AudioStream" uid="uid://8wwx00jahvq7" path="res://assets/sounds/Positive Sounds/sfx_sounds_powerup5.wav" id="6_bggq5"]
+[ext_resource type="AudioStream" uid="uid://o5fqs8cj66x4" path="res://assets/sounds/Positive Sounds/sfx_sounds_powerup6.wav" id="7_dn1bx"]
+[ext_resource type="AudioStream" uid="uid://cu4ilkq8eb6pa" path="res://assets/sounds/Positive Sounds/sfx_sounds_powerup7.wav" id="8_x82gg"]
+[ext_resource type="AudioStream" uid="uid://c7nwhhv8fnmal" path="res://assets/sounds/Positive Sounds/sfx_sounds_powerup8.wav" id="9_m1bwt"]
+[ext_resource type="AudioStream" uid="uid://c5kmix3q303e4" path="res://assets/sounds/Positive Sounds/sfx_sounds_powerup9.wav" id="10_0770g"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_4yg4j"]
+height = 49.4975
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_opm3s"]
+streams_count = 9
+stream_0/stream = ExtResource("2_dliym")
+stream_1/stream = ExtResource("3_ys6ab")
+stream_2/stream = ExtResource("4_n5xu2")
+stream_3/stream = ExtResource("5_t8ipd")
+stream_4/stream = ExtResource("6_bggq5")
+stream_5/stream = ExtResource("7_dn1bx")
+stream_6/stream = ExtResource("8_x82gg")
+stream_7/stream = ExtResource("9_m1bwt")
+stream_8/stream = ExtResource("10_0770g")
+
+[sub_resource type="Animation" id="Animation_dliym"]
+resource_name = "flash"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.25, 0.5, 0.75, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(0.172549, 0.588235, 0.776471, 1), Color(1, 1, 1, 1), Color(0.172549, 0.588235, 0.776471, 1), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_ys6ab"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_n5xu2"]
+_data = {
+&"RESET": SubResource("Animation_ys6ab"),
+&"flash": SubResource("Animation_dliym")
+}
+
+[node name="Pickup" type="Area2D"]
+script = ExtResource("1_ys6ab")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_oep1y")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+rotation = 0.785398
+shape = SubResource("CapsuleShape2D_4yg4j")
+
+[node name="Sound" type="AudioStreamPlayer2D" parent="."]
+stream = SubResource("AudioStreamRandomizer_opm3s")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_n5xu2")
+}
+autoplay = "flash"
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="finished" from="Sound" to="." method="_on_sound_finished"]
