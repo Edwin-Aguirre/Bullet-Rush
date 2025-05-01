@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://b556ifg1acjfg"]
+[gd_scene load_steps=16 format=3 uid="uid://b556ifg1acjfg"]
 
 [ext_resource type="Script" uid="uid://pfy34artbrjr" path="res://scenes/npc/npc.gd" id="1_dpyoa"]
 [ext_resource type="FontFile" uid="uid://br78jsck4l551" path="res://assets/fonts/LuckiestGuy-Regular.ttf" id="1_sspvn"]
@@ -63,11 +63,14 @@ _data = {
 &"alert": SubResource("Animation_evswx")
 }
 
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_p70cs"]
+
 [node name="NPC" type="CharacterBody2D"]
 collision_layer = 0
 script = ExtResource("1_dpyoa")
 
 [node name="DebugLabel" type="Label" parent="."]
+visible = false
 offset_left = -25.0
 offset_top = -100.0
 offset_right = 23.0
@@ -118,5 +121,11 @@ position = Vector2(45, 10)
 [node name="GunSound" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("8_p70cs")
 
+[node name="HitBox" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitBox"]
+shape = SubResource("CapsuleShape2D_p70cs")
+
 [connection signal="velocity_computed" from="NavAgent" to="." method="_on_nav_agent_velocity_computed"]
 [connection signal="timeout" from="ShootTimer" to="." method="_on_shoot_timer_timeout"]
+[connection signal="body_entered" from="HitBox" to="." method="_on_hit_box_body_entered"]

@@ -180,3 +180,8 @@ func _on_nav_agent_velocity_computed(safe_velocity: Vector2) -> void:
 
 func _on_shoot_timer_timeout() -> void:
 	shoot()
+
+
+func _on_hit_box_body_entered(body: Node2D) -> void:
+	if body is Player:
+		SignalHub.emit_on_player_died()
